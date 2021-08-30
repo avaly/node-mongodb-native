@@ -22,7 +22,8 @@ describe('ReplicaSet state', function() {
           description.match(/replicaSet URI option causes starting topology to be RSNP/) ||
           description.match(/Discover secondary with directConnection URI option/) ||
           description.match(/Discover ghost with directConnection URI option/) ||
-          description.match(/topologyVersion/)
+          description.match(/topologyVersion/) ||
+          description.match(/Repeated isWritablePrimary response must be processed/)
         ) {
           this.skip();
           return;
