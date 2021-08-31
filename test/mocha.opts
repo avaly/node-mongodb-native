@@ -4,3 +4,4 @@
   --ui test/tools/runner/metadata_ui.js
   --reporter spec-xunit-file
   --colors
+  --require source-map-support/register
