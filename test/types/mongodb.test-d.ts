@@ -1,4 +1,4 @@
-import { expectType, expectDeprecated, expectNotDeprecated } from 'tsd';
+import { expectType, expectDeprecated, expectError, expectNotDeprecated } from 'tsd';
 import { MongoClient } from '../../src/mongo_client';
 import { Collection } from '../../src/collection';
 import { AggregationCursor } from '../../src/cursor/aggregation_cursor';
@@ -38,3 +38,13 @@ const composedMap = mappedAgg.map<string>(x => x.toString());
 expectType<AggregationCursor<string>>(composedMap);
 expectType<string | null>(await composedMap.next());
 expectType<string[]>(await composedMap.toArray());
+
+const builtCursor = coll.aggregate();
+// should allow string values for the out helper
+expectType<AggregationCursor<Document>>(builtCursor.out('collection'));
+// should also allow an object specifying db/coll (as of MongoDB 4.4)
+expectType<AggregationCursor<Document>>(builtCursor.out({ db: 'db', coll: 'collection' }));
+// should error on other object shapes
+expectError(builtCursor.out({ other: 'shape' }));
+// should error on non-object, non-string values
+expectError(builtCursor.out(1));
